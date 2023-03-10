@@ -1,25 +1,16 @@
-import { OnInit, Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
-import { Observable, Subscriber } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { map } from 'leaflet';
-
-interface CustomPolylineOptions extends L.PolylineOptions {
-  arrowheads?: {
-    size: string;
-    frequency: string;
-  };
-}
-
+import 'leaflet-arrowheads';
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss'],
+  selector: 'app-map2',
+  templateUrl: './map2.component.html',
+  styleUrls: ['./map2.component.scss'],
 })
-export class MapComponent implements OnInit {
-  private map!: L.Map;
+export class Map2Component implements OnInit {
+  private map2!: L.Map;
   private markers: L.Marker[] = [];
   private polyline!: L.Polyline;
+  private markerIndex = 0;
 
   constructor() {}
 
@@ -29,8 +20,8 @@ export class MapComponent implements OnInit {
 
   private initMap(): void {
     // create a new map instance
-    this.map = L.map('map', {
-      center: [51.505, -0.09],
+    this.map2 = L.map('map2', {
+      center: [50.4851493, 30.4721233],
       zoom: 13,
     });
 
@@ -41,10 +32,11 @@ export class MapComponent implements OnInit {
         attribution: '© OpenStreetMap contributors',
       }
     );
-    tiles.addTo(this.map);
+    tiles.addTo(this.map2);
 
     // add click event listener to the map
-    this.map.on('click', (event: L.LeafletMouseEvent) => {
+    this.map2.on('click', (event: L.LeafletMouseEvent) => {
+      console.log(event);
       this.addMarker(event.latlng);
     });
   }
@@ -52,16 +44,22 @@ export class MapComponent implements OnInit {
   private addMarker(latlng: L.LatLng): void {
     // create a new marker and add it to the map
     const marker = L.marker(latlng, {
-      alt: 'asdas',
       autoPan: true,
       draggable: true,
       riseOnHover: true,
     });
-    marker.addTo(this.map);
+
+    marker.bindPopup('sfdsfdskj').openPopup();
 
     // add click event listener to the marker
     marker.on('click', () => {
+      console.log(this.map2);
+      // this.removeMarker(marker);
+    });
+    marker.on('dblclick', () => {
+      console.log(this.markers);
       this.removeMarker(marker);
+      this.markerIndex--;
     });
 
     // add dragend event listener to the marker
@@ -80,15 +78,19 @@ export class MapComponent implements OnInit {
 
     // create a new marker icon with the marker index
     const icon = L.divIcon({
-      className: 'marker-label',
+      className: 'number-icon',
+      iconSize: [25, 41],
+      iconAnchor: [10, 44],
+      popupAnchor: [3, -40],
       html: `<span>${this.markerIndex}</span>`,
     });
     marker.setIcon(icon);
+    marker.addTo(this.map2);
   }
 
   private removeMarker(marker: L.Marker): void {
     // remove the marker from the map
-    marker.removeFrom(this.map);
+    marker.removeFrom(this.map2);
 
     // remove the marker from the markers array
     const index = this.markers.indexOf(marker);
@@ -103,27 +105,36 @@ export class MapComponent implements OnInit {
   private updatePolyline(): void {
     // remove the existing polyline from the map
     if (this.polyline) {
-      this.polyline.removeFrom(this.map);
+      this.polyline.removeFrom(this.map2);
     }
 
     // create a new polyline from the markers
-    const latlngs = this.markers.map((marker) => marker.getLatLng());
-    const options: CustomPolylineOptions = {
-      arrowheads: {
-        size: '10px',
-        frequency: '1',
-      },
-    };
+    const latlngs = this.markers.map((marker, index) => {
+      const icon = L.divIcon({
+        className: 'number-icon',
+        iconSize: [25, 41],
+        iconAnchor: [10, 44],
+        popupAnchor: [3, -40],
+        html: `<span>${index + 1}</span>`,
+      });
+      console.log(marker.setIcon(icon));
+      return marker.getLatLng();
+    });
 
     if (latlngs.length > 1) {
-      this.polyline = L.polyline(latlngs, options);
-      this.polyline.addTo(this.map);
+      this.polyline = L.polyline(latlngs, { color: 'red' }).arrowheads({
+        color: 'red',
+        yawn: 20,
+        fill: true,
+      });
+      console.log(this.polyline);
+      this.polyline.addTo(this.map2);
     }
   }
   public clearMarkers(): void {
     // remove all markers from the map
     this.markers.forEach((marker) => {
-      marker.removeFrom(this.map);
+      marker.removeFrom(this.map2);
     });
 
     // empty the markers array
@@ -131,9 +142,9 @@ export class MapComponent implements OnInit {
 
     // remove the polyline from the map
     if (this.polyline) {
-      this.polyline.removeFrom(this.map);
+      this.polyline.removeFrom(this.map2);
       // this.polyline = null;
     }
+    this.markerIndex = 0;
   }
-  private markerIndex = 0;
 }
