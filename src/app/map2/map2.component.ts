@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
+
 import 'leaflet-arrowheads';
+
 @Component({
   selector: 'app-map2',
   templateUrl: './map2.component.html',
@@ -17,6 +19,10 @@ export class Map2Component implements OnInit {
   ngOnInit(): void {
     this.initMap();
   }
+
+  svgMarker = (index: number) => {
+    return `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icon-svg" style="width:52px; height:84"><filter id="iconShadowBlur"><feGaussianBlur in="SourceGraphic" stdDeviation="1"></feGaussianBlur></filter><path filter="url(#iconShadowBlur" )="" class="svg-icon-shadow" d="M 1 16 L 16 46 L 31 16 A 8 8 0 0 0 1 16 Z" fill="rgb(0,0,10)" stroke-width="2" stroke="rgb(0,0,10)" style="opacity: 0.5; transform-origin: 16px 48px; transform: rotate(45deg) translate(0px, 0px) scale(1, 0.75)"></path><path class="svg-icon-path" d="M 1 16 L 16 46 L 31 16 A 8 8 0 0 0 1 16 Z" stroke-width="2" stroke="rgb(0,102,255)" stroke-opacity="1" fill="rgb(0,102,255)" fill-opacity="0.4"></path><circle class="svg-icon-circle" cx="16" cy="16" r="8" fill="rgb(255,255,255)" fill-opacity="1" stroke="rgb(0,102,255)" stroke-opacity="1&quot;" stroke-width="2"></circle><text text-anchor="middle" x="16" y="18.8" style="font-size: 8px; font-weight: normal" fill="rgba(0, 0, 0,1)">${index}</text></svg>`;
+  };
 
   private initMap(): void {
     // create a new map instance
@@ -82,7 +88,7 @@ export class Map2Component implements OnInit {
       iconSize: [25, 41],
       iconAnchor: [10, 44],
       popupAnchor: [3, -40],
-      html: `<span>${this.markerIndex}</span>`,
+      html: this.svgMarker(this.markerIndex),
     });
     marker.setIcon(icon);
     marker.addTo(this.map2);
@@ -115,7 +121,7 @@ export class Map2Component implements OnInit {
         iconSize: [25, 41],
         iconAnchor: [10, 44],
         popupAnchor: [3, -40],
-        html: `<span>${index + 1}</span>`,
+        html: this.svgMarker(index + 1),
       });
       console.log(marker.setIcon(icon));
       return marker.getLatLng();

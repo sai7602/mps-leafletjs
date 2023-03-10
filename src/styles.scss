@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+
+.number-icon {
+  // background-image: url("./assets/marker-icon.png");
+  text-align: center;
+  color: red;
+  &span {
+    font-size: 30px;
+  }
+}
