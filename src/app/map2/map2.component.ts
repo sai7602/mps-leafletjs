@@ -55,13 +55,49 @@ export class Map2Component implements OnInit {
       riseOnHover: true,
     });
 
-    marker.bindPopup('sfdsfdskj').openPopup();
+    const form = document.createElement('form');
+    form.innerHTML = `
+      <label for="lat">Latitude:</label>
+      <input type="text" name="lat" value="${latlng.lat}" required>
+      <br>
+      <label for="lng">Longitude:</label>
+      <input type="text" name="lng" value="${latlng.lng}" required>
+      <br>
+      <label for="height">Height:</label>
+      <input type="text" name="height" value="0">
+      <br>
+      <button type="submit">Save</button>
+    `;
+
+    marker.bindPopup(form);
 
     // add click event listener to the marker
     marker.on('click', () => {
-      console.log(this.map2);
-      // this.removeMarker(marker);
+      marker.openPopup();
     });
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      // get the updated latitude, longitude, and height values
+      const latInput = form.elements.namedItem('lat') as HTMLInputElement;
+      const lngInput = form.elements.namedItem('lng') as HTMLInputElement;
+      const heightInput = form.elements.namedItem('height') as HTMLInputElement;
+      const lat = parseFloat(latInput.value);
+      const lng = parseFloat(lngInput.value);
+      const height = parseFloat(heightInput.value);
+
+      // update the marker position and height
+      marker.setLatLng([lat, lng]);
+      marker.setZIndexOffset(height);
+
+      // close the popup
+      marker.closePopup();
+
+      // update the polyline
+      this.updatePolyline();
+    });
+
     marker.on('dblclick', () => {
       console.log(this.markers);
       this.removeMarker(marker);
