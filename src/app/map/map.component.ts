@@ -33,13 +33,75 @@ export class MapComponent implements OnInit {
     });
 
     // add tile layer to the map
-    const tiles = L.tileLayer(
+    const OpenStreet = L.tileLayer(
       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       {
         attribution: '© OpenStreetMap contributors',
       }
     );
-    tiles.addTo(this.map);
+
+    OpenStreet.addTo(this.map);
+
+    const railwayMap = L.tileLayer(
+      'https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png',
+      {
+        maxZoom: 19,
+        attribution:
+          'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Map style: &copy; <a href="https://www.OpenRailwayMap.org">OpenRailwayMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+      }
+    );
+
+    const googleStreets = L.tileLayer(
+      'http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
+      {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      }
+    );
+
+    // Hybrid
+
+    const googleHybrid = L.tileLayer(
+      'http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',
+      {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      }
+    );
+
+    // satellite
+
+    const googleSat = L.tileLayer(
+      'http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
+      {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      }
+    );
+
+    // Terrain;
+
+    const googleTerrain = L.tileLayer(
+      'http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',
+      {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      }
+    );
+    // add baseMaps
+    const baseMaps = {
+      'Open Street Map': OpenStreet,
+      'Google Streets': googleStreets,
+      'Google Streets Hybrid': googleHybrid,
+      'Google Satellite': googleSat,
+      GoogleTerrain: googleTerrain,
+    };
+    // add overlayMaps
+    var overlayMaps = {
+      railwayMap: railwayMap,
+    };
+    // add control layers to the map
+    L.control.layers(baseMaps, overlayMaps).addTo(this.map);
 
     // add click event listener to the map
     this.map.on('click', (event: L.LeafletMouseEvent) => {
