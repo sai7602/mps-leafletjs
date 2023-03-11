@@ -1,27 +1,14 @@
 # MpsLeafletjs
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.6.
+Створення простої мапи
 
-## Development server
+Мапа має наступні елементи
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+1. Вибір типу мапи (OpenStreetMap, Google map різних варіантів), та додатковий шар з залізничними шляхами
+2. Додавання маркерів на мапу, при додаванні одразу проставляється порядковий номер маркера, якщо більше двох маркерів то проставляться шлях між маркерами та напрямок шляху у вигляді стрілок
+3. При подвійному кліку на маркері маркер видаляється з мапи, а номери маркерів оновлюються.
+4. При одинарному кліку на маркері відкривається вікно редагування параметрів маркеру (довгота, широта та висота)
+5. Під мапою додано кнопки очищення маркерів та відправлення даних на умовний сервер
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+![image](https://user-images.githubusercontent.com/37482710/224475128-dd198dd7-729f-4dd8-893d-9e6fb3d00620.png)
