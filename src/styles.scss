@@ -8,3 +8,28 @@
     font-size: 30px;
   }
 }
+
+.form {
+  padding-top: 10px;
+  width: 200px;
+  label {
+    display: inline-block;
+    width: 50px;
+    text-align: left;
+    margin-right: 10px;
+  }
+  input {
+    box-sizing: border-box;
+    display: inline-block;
+    width: calc(100% - 70px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+  }
+  button {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

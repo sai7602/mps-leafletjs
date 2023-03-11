@@ -118,6 +118,7 @@ export class MapComponent implements OnInit {
     });
 
     const form = document.createElement('form');
+    form.classList.add('form');
     form.innerHTML = `
       <label for="lat">Latitude:</label>
       <input type="text" name="lat" value="${latlng.lat}" required>
