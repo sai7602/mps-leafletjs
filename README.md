@@ -12,4 +12,4 @@
 6. Маркери можна перетягувати по мапі звичайним drag and drop
 
 
-![image](https://user-images.githubusercontent.com/37482710/224475128-dd198dd7-729f-4dd8-893d-9e6fb3d00620.png)
+![image](https://user-images.githubusercontent.com/37482710/224475592-895771e2-a212-488c-961e-5a3f2bf428a8.png)
